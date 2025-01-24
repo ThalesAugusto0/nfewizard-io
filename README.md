@@ -22,6 +22,14 @@ para autorização.
     - Operação Não Realizada
 - **Geração de DANFE**: Criação do Documento Auxiliar da Nota Fiscal Eletrônica (DANFE), um resumo impresso da NFe.
 
+## 🚧 ATENÇÃO 🚧
+
+Para ambientes CJS (CommonJS) a importação utilizada deverá ser feita da seguinte maneira:
+```typescript
+const NFeWizard = require('nfewizard-io').default;
+```
+
+
 ## Exemplo de Utilização
 
 ```typescript
@@ -94,12 +102,10 @@ await nfeWizard.NFE_DistribuicaoDFePorChave(chaveNFe);
 - Para a documentação completa acesse [NFeWizard-io - Docs](https://nfewizard-org.github.io/)
   
 
-## Última Release (0.1.9)
+## Última Release (0.3.1)
 
-- Adicionada propriedade useForSchemaValidation (config - lib - useForSchemaValidation). Caso 'validateSchemaJsBased' chama um método que não utiliza JAVA para validar o xml. Caso 'validateSchemaJavaBased' chama um método baseado em JAAVA para validar o xml.
-- Adicionado método de *validateSchemaJsBased* e *validateSchemaJavaBased* para validação do XML condicionado à propriedade *useForSchemaValidation* na configuração do ambiente.
-- Externaliza libxmljs
-- Finaliza ajustes para funcionamento em ambiente lambda
+- Efetuados diversos ajustes na emissão de NFC-e.
+- Alterada estrutura de pastas da lib (com mais alterações estruturais por vir)
 
 ## Observações
 
@@ -154,9 +160,8 @@ await nfeWizard.NFE_DistribuicaoDFePorChave(chaveNFe);
 
 ### Próximos passos
 
-- Adicionar Testes
-- Aplicar SOLID
 - Adicionar tratamento de LOGs
+- Estudo para implementação de NFSe
 
 ## Contribua para Nossa Biblioteca Open Source
 
