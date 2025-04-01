@@ -1,9 +1,20 @@
-<!-- <div style="height: 200px; display: flex; justify-content: center; align-items: center; width: 100%;">
-  <img src="./src/assets/logo.jpg" style="height: 200px;width: 200px;" />
-</div> -->
-
 # NFeWizard-io
 
+## 🚨 ATENÇÃO: Esta biblioteca foi modularizada! 🚨
+
+A biblioteca nfewizard-io agora está dividida em módulos menores para facilitar a manutenção e otimizar o tamanho do pacote.
+
+⚠️ A partir da versão 1.0.0 este repositório será responsável apenas pelos serviços de NF-e.  Para os serviços de NFC-e utilize o `@nfewizard-io/nfce`.
+
+## 📦 Como instalar os novos pacotes?
+
+### Para utilizar serviços relacionados à NFCe instale o modulo:
+```typescript
+npm i @nfewizard-io/nfce
+```
+🚀 Pronto, agora você pode decidir utilizar apenas os serviços que precisa!
+
+## Sobre
 NFeWizard-io é uma biblioteca Node.js projetada para simplificar a interação com os webservices da SEFAZ, proporcionando uma solução robusta para automação de processos relacionados à Nota Fiscal Eletrônica (NF-e). A biblioteca oferece métodos abrangentes para diversas operações fiscais, incluindo:
 
 - **Autorização (Emissão de NFe e NFCe)**: Submissão de Notas Fiscais Eletrônicas e Notas Fiscais de Consumidor Eletrônica
@@ -12,8 +23,8 @@ para autorização.
 - **Consulta de Protocolo**: Verificação da situação atual da NF-e na Base de Dados do Portal da Secretaria de Fazenda Estadual.
 - **Inutilização de NFe**: Processo de inutilização de números de NF-e que não serão utilizados, assegurando a conformidade fiscal.
 - **Consulta de Status do Serviço**: Monitoramento do status dos serviços da SEFAZ, garantindo a disponibilidade dos webservices.
-- **Recepção de Eventos**: Tratamento de diversos eventos relacionados à NFe, incluindo:
-    - Cancelamento de NFe
+- **Recepção de Eventos**: Tratamento de diversos eventos relacionados à NFe e NFCe, incluindo:
+    - Cancelamento de NFe e NFCe
     - Carta de Correção
     - Ciência da Operação
     - Confirmação da Operação
@@ -23,6 +34,36 @@ para autorização.
 - **Geração de DANFE**: Criação do Documento Auxiliar da Nota Fiscal Eletrônica (DANFE), um resumo impresso da NFe.
 
 ## 🚧 ATENÇÃO 🚧
+### Requisitos para instalação
+Para utilizar esta biblioteca, é necessário ter o JDK instalado no ambiente.
+
+Caso esteja rodando em um ambiente sem suporte ao JDK (como a Vercel) ou que não permita a adição de layers (diferente do AWS Lambda), é possível configurar a biblioteca como uma external lib e utilizar a seguinte opção ao inicializá-la:
+```typescript
+useForSchemaValidation: 'validateSchemaJsBased'
+```
+### Exemplo de configuração no Serverless Framework
+Se estiver usando o Serverless Framework, você pode marcar a biblioteca como external no arquivo de configuração (.yml), garantindo que ela não seja empacotada junto ao código da aplicação:
+```yml
+build:
+  esbuild:
+    bundle: true
+    minify: true
+    sourcemap: true
+    target: 'node20'
+    format: 'cjs'
+    external:
+      - better-sqlite3
+      - mysql
+      - mysql2
+      - oracledb
+      - tedious
+      - sqlite3
+      - pg-query-stream
+      - nfewizard-io
+```
+Dessa forma, a nfewizard-io será tratada como uma dependência externa, permitindo sua execução sem a necessidade do JDK no ambiente.
+
+### Exemplo de importação CJS
 
 Para ambientes CJS (CommonJS) a importação utilizada deverá ser feita da seguinte maneira:
 ```typescript

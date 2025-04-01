@@ -27,17 +27,17 @@ export default [
             {
                 file: 'dist/esm/index.js',
                 format: 'esm',
-                sourcemap: false,
+                sourcemap: true,
             },
             {
                 file: 'dist/cjs/index.cjs',
                 format: 'cjs',
-                sourcemap: false,
+                sourcemap: true,
                 exports: 'named',
                 interop: 'auto',
             },
         ],
-        external: ['fs', 'path', 'https', 'url', 'crypto', 'bwip-js', 'xsd-schema-validator', 'pdfkit', 'pem', 'libxmljs'],
+        external: ['fs', 'path', 'https', 'url', 'crypto', 'bwip-js', 'xsd-schema-validator', 'pdfkit', 'pem', 'libxmljs', 'src/testes.ts'],
         plugins: [
             alias({
                 entries: [
