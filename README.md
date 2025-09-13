@@ -1,20 +1,43 @@
-# NFeWizard-io
+# NFeWizard-io 🪄
 
-## 🚨 ATENÇÃO: Esta biblioteca foi modularizada! 🚨
+## 🛠️ Lib atualizada com NT 2025.002 v.120 - Reforma Tributária
 
-A biblioteca nfewizard-io agora está dividida em módulos menores para facilitar a manutenção e otimizar o tamanho do pacote.
+## Atenção: Ao abrir uma issue certifique-se de adicionar as informações abaixo:
 
-⚠️ A partir da versão 1.0.0 este repositório será responsável apenas pelos serviços de NF-e.  Para os serviços de NFC-e utilize o `@nfewizard-io/nfce`.
+Ao abrir issue ou PR, inclua:
 
-## 📦 Como instalar os novos pacotes?
+```markdown
+## Parametrização
+- UF: SP
+- Certificado: A1
+- Método: NFE_ConsultaStatusServico
+- Status: ✅ Funcionando / ❌ Com erro
+```
+
+## Logs Relevantes
+
+Inclua também os logs gerados no diretório configurado em `pathLogs`.
+Lembre-se de adicionar os logs **app.jsonl**, **error.jsonl** e **http.jsonl**.
+
+```jsonl
+{"context":"NFE_ConsultaProtocolo","error":{"message":"Rejeição: Consumo Indevido",...}
+```
+
+<!-- ## 🚨 ATENÇÃO: Esta biblioteca será modularizada! 🚨 -->
+
+<!-- A biblioteca nfewizard-io agora está dividida em módulos menores para facilitar a manutenção e otimizar o tamanho do pacote.
+
+⚠️ A partir da versão 1.0.0 este repositório será responsável apenas pelos serviços de NF-e.  Para os serviços de NFC-e utilize o `@nfewizard-io/nfce`. -->
+
+<!-- ## 📦 Como instalar os novos pacotes?
 
 ### Para utilizar serviços relacionados à NFCe instale o modulo:
 ```typescript
 npm i @nfewizard-io/nfce
 ```
-🚀 Pronto, agora você pode decidir utilizar apenas os serviços que precisa!
+🚀 Pronto, agora você pode decidir utilizar apenas os serviços que precisa! -->
 
-## Sobre
+## Sobre a Biblioteca
 NFeWizard-io é uma biblioteca Node.js projetada para simplificar a interação com os webservices da SEFAZ, proporcionando uma solução robusta para automação de processos relacionados à Nota Fiscal Eletrônica (NF-e). A biblioteca oferece métodos abrangentes para diversas operações fiscais, incluindo:
 
 - **Autorização (Emissão de NFe e NFCe)**: Submissão de Notas Fiscais Eletrônicas e Notas Fiscais de Consumidor Eletrônica
@@ -80,62 +103,69 @@ const nfeWizard = new NFeWizard();
 
 // Inicializar
 await nfeWizard.NFE_LoadEnvironment({
-    config: {
-        dfe: {
-            baixarXMLDistribuicao: true,
-            pathXMLDistribuicao: "tmp/DistribuicaoDFe",
-            armazenarXMLAutorizacao: true,
-            pathXMLAutorizacao: "tmp/Autorizacao",
-            armazenarXMLRetorno: true,
-            pathXMLRetorno: "tmp/RequestLogs",
-            armazenarXMLConsulta: true,
-            pathXMLConsulta: "tmp/RequestLogs",
-            armazenarXMLConsultaComTagSoap: false,
-            armazenarRetornoEmJSON: true,
-            pathRetornoEmJSON: "tmp/DistribuicaoDFe",
+        config: {
+            dfe: {
+                baixarXMLDistribuicao: true,
+                pathXMLDistribuicao: "tmp/DistribuicaoDFe",
+                armazenarXMLAutorizacao: true,
+                pathXMLAutorizacao: "tmp/Autorizacao",
+                armazenarXMLRetorno: true,
+                pathXMLRetorno: "tmp/RequestLogs",
+                armazenarXMLConsulta: true,
+                pathXMLConsulta: "tmp/RequestLogs",
+                armazenarXMLConsultaComTagSoap: false,
+                armazenarRetornoEmJSON: false,
+                pathRetornoEmJSON: "tmp/DistribuicaoDFe",
 
-            pathCertificado: "certificado.pfx",
-            senhaCertificado: "123456",
-            UF: "SP",
-            CPFCNPJ: "99999999999999",
-        },
-        nfe: {
-            ambiente: 2,
-            versaoDF: "4.00",
-        },
-        email: {
-            host: 'smtp.example.com',
-            port: 587,
-            secure: false,
-            auth: {
-                user: 'seu-email@example.com',
-                pass: 'sua-senha'
+                pathCertificado: "certificado.pfx",
+                senhaCertificado: "1234",
+                UF: "SP",
+                CPFCNPJ: "99999999999999",
             },
-            emailParams: {
-                from: '"Seu Nome" <seu-email@example.com>',
-                to: 'destinatario@example.com',
+            nfe: {
+                ambiente: 2,
+                versaoDF: "4.00",
+                idCSC: 1,
+                tokenCSC: '99999999-9999-9999-9999-999999999999'
+            },
+            email: {
+                host: 'mail.provider.com.br',
+                port: 465,
+                secure: true, 
+                auth: {
+                    user: 'nfe.example@email.com.br',
+                    pass: '123456' 
+                },
+                emailParams: {
+                    from: 'Company <noreply.company@email.com>',
+                    to: 'customer.name@email.com.br',
+                }
+            },
+            lib: {
+                connection: {
+                    timeout: 30000,
+                },
+                log: {
+                    exibirLogNoConsole: true,
+                    armazenarLogs: true,
+                    pathLogs: 'tmp/Logs'
+                },
+                useOpenSSL: false,
+                useForSchemaValidation: 'validateSchemaJsBased',
             }
-        },
-        lib: {
-            connection: {
-                timeout: 30000,
-            },
-            useOpenSSL: false,
-            useForSchemaValidation: 'validateSchemaJsBased',
         }
+    });
+
+    // Exemplo de Utilização
+    const chaveNFe: DFePorChaveNFe = {
+        cUFAutor: 35,
+        CNPJ: '99999999999999',
+        consChNFe: {
+            chNFe: '00000000000000000000000000000000000000000000'
+        },
     }
-});
 
-// Exemplo de Utilização
-const chaveNFe: DFePorChaveNFe = {
-    cUFAutor: 35,
-    CNPJ: '99999999999999',
-    consChNFe: {
-        chNFe: '00000000000000000000000000000000000000000000'
-    },
-}
-
-await nfeWizard.NFE_DistribuicaoDFePorChave(chaveNFe);
+    await nfeWizard.NFE_DistribuicaoDFePorChave(chaveNFe);
 ```
 
 ## Documentação
@@ -162,14 +192,40 @@ await nfeWizard.NFE_DistribuicaoDFePorChave(chaveNFe);
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "Debug NFe Wizard",
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/src/index.ts",
+            "program": "${workspaceFolder}/src/testes.ts",
+            "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/tsx",
+            "runtimeArgs": [],
+            "console": "integratedTerminal",
+            "env": {
+                "NODE_ENV": "development"
+            },
+            "sourceMaps": true,
+            "restart": true,
+            "protocol": "inspector",
             "outFiles": [
                 "${workspaceFolder}/**/*.js"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug com ts-node",
+            "skipFiles": [
+                "<node_internals>/**"
             ],
+            "program": "${workspaceFolder}/src/testes.ts",
+            "runtimeArgs": [
+                "--loader", "ts-node/esm"
+            ],
+            "console": "integratedTerminal",
+            "env": {
+                "NODE_ENV": "development",
+                "NODE_OPTIONS": "--loader ts-node/esm"
+            },
             "sourceMaps": true
         }
     ]
@@ -256,6 +312,7 @@ Agradecemos aos seguintes desenvolvedores por suas contribuições ao projeto:
     <td align="center"><a href="https://github.com/dliocode"><img src="https://github.com/dliocode.png" width="50px;" style="border-radius:50%" alt=""/><br /><sub><b>dliocode</b></sub></a></td>
     <td align="center"><a href="https://github.com/ThalesAugusto0"><img src="https://github.com/ThalesAugusto0.png" width="50px;" style="border-radius:50%" alt=""/><br /><sub><b>ThalesAugusto0</b></sub></a></td>
     <td align="center"><a href="https://github.com/cassioseffrin"><img src="https://github.com/cassioseffrin.png" width="50px;" style="border-radius:50%" alt=""/><br /><sub><b>cassioseffrin</b></sub></a></td>
+    <td align="center"><a href="https://www.linkedin.com/company/infinitedev/?originalSubdomain=br"><img src="https://media.licdn.com/dms/image/v2/C4D0BAQHwL-vRW4A0zw/company-logo_200_200/company-logo_200_200/0/1677157135085/infinitedev_logo?e=1756339200&v=beta&t=QH9t_R-s9-g-RDh-BM1eiu3eaO_d-F60Hk0xy6dy0M4" width="50px;" style="border-radius:50%" alt=""/><br /><sub><b>InfiniteDev</b></sub></a></td>
   </tr>
 </table>
 
@@ -268,7 +325,7 @@ Agradecemos imensamente aos nossos patrocinadores pela sua generosidade.
 <table>
   <tr>
     <td align="center"><a href="https://github.com/italosll"><img src="https://github.com/italosll.png" width="50px;" style="border-radius:50%" alt=""/><br /><sub><b>italosll</b></sub></a></td>
-    <!-- Adicione mais contribuidores conforme necessário -->
+    <td align="center"><a href="https://www.linkedin.com/company/infinitedev/?originalSubdomain=br"><img src="https://media.licdn.com/dms/image/v2/C4D0BAQHwL-vRW4A0zw/company-logo_200_200/company-logo_200_200/0/1677157135085/infinitedev_logo?e=1756339200&v=beta&t=QH9t_R-s9-g-RDh-BM1eiu3eaO_d-F60Hk0xy6dy0M4" width="50px;" style="border-radius:50%" alt=""/><br /><sub><b>InfiniteDev</b></sub></a></td>
   </tr>
 </table>
 

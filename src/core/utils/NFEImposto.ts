@@ -110,6 +110,7 @@ const ICMSMap: { [key: string]: keyof ICMS } = {
     '50': 'ICMS40',
     '51': 'ICMS51',
     '60': 'ICMS60',
+    '61': 'ICMS61',
     '70': 'ICMS70',
     '90': 'ICMS90',
     '101': 'ICMSSN101',
@@ -198,12 +199,15 @@ export const mountICMS = (icms: dadosICMS): ICMS => {
 
     let cod_sit = CST;
 
+    let tipo_sit_trib = 'CST';
     if (CST?.trim()?.length > 0) {
         cod_sit = CST.length > 2 ? CST.substring(1, 3) : CST;
     } else if (CSOSN) {
-        cod_sit = String(CSOSN);
+        tipo_sit_trib = 'CSOSN';
+        CSOSN?.trim()?.length > 3 ? cod_sit = CSOSN.substring(1, 4) : cod_sit = String(CSOSN);
     }
-    
+
+    // console.warn(`MountICMS utilizando [${tipo_sit_trib}]`);
 
     let icmsKey = ICMSMap[cod_sit];
     if (!icmsKey) {
